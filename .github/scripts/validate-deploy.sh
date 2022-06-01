@@ -98,5 +98,12 @@ done
 
 echo "Watson Assitant WatsonAssistant/"${INSTANCE_NAME}" is "${INSTANCE_STATUS}""
 
+# Clean up WA Resources. Not getting deleted along with CR
+kubectl delete deployment,secret -l release=wa-dwf -n "${CPD_NAMESPACE}"
+kubectl get secret -oname | grep -i "wa-" | xargs kubectl delete -n "${CPD_NAMESPACE}"
+kubectl get pvc -oname | grep -i "wa-" | xargs kubectl delete -n "${CPD_NAMESPACE}"
+kubectl patch temporarypatch wa-add-clu-mm-balanced-header -n "${CPD_NAMESPACE}" --type=merge -p '{"metadata": {"finalizers":null}}'
+
+
 cd ..
 rm -rf .testrepo
