@@ -1,0 +1,12 @@
+apiVersion: operator.ibm.com/v1alpha1
+kind: OperandRequest
+metadata:
+  name: common-service-edb
+  namespace: {{ .Values.common_services_namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-8"
+spec:
+  requests:
+    - operands:
+        - name: cloud-native-postgresql
+      registry: common-service

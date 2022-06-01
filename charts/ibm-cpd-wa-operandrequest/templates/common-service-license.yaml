@@ -1,0 +1,17 @@
+apiVersion: operator.ibm.com/v1alpha1
+kind: OperandRequest
+metadata:
+  name: common-service-license
+  namespace: {{ .Values.cpd_namespace }} 
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"
+spec:
+  requests:
+  - operands:
+      - name: ibm-licensing-operator
+        bindings:
+          public-api-upload:
+            secret: ibm-licensing-upload-token
+            configmap: ibm-licensing-upload-config
+    registry: common-service
+    registryNamespace: {{ .Values.common_services_namespace }}

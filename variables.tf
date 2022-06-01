@@ -74,8 +74,75 @@ variable "kubeseal_cert" {
   default     = ""
 }
 
+variable "cluster_ingress_hostname" {
+  type        = string
+  description = "Ingress hostname of the IKS cluster."
+  default     = ""
+}
+
 variable "server_name" {
   type        = string
   description = "The name of the server"
   default     = "default"
+}
+
+variable "common_services_namespace" {
+  type        = string
+  description = "Namespace for cpd commmon services"
+  default = "ibm-common-services"
+}
+
+variable "operator_namespace" {
+  type        = string
+  description = "Namespace for cpd operators"
+  default = "cpd-operators"
+}
+
+variable "cpd_namespace" {
+  type        = string
+  description = "CPD namespace"
+  default = "gitops-cp4d-instance"
+}
+
+variable "operator_channel" {
+  type        = string
+  description = "operator channel"
+  default     = "v4.0"
+}
+
+variable "instance_version" {
+  type        = string
+  description = "Instance version"
+  default     = "4.0.8"
+}
+
+variable "license" {
+  type        = string
+  description = "License type"
+  default     = "Enterprise"
+}
+
+variable "storage_class" {
+  type        = string
+  description = "Storage class for the instance"
+  default     = "portworx-watson-assistant-sc"
+}
+
+variable "install_plan" {
+  type        = string
+  description = "install plan"
+  default     = "Automatic"
+}
+
+
+variable "sub_syncwave" {
+  type        = string
+  description = "Sync Wave"
+  default     = "-5"
+}
+
+variable "inst_syncwave" {
+  type        = string
+  description = "Sync Wave"
+  default     = "-3"
 }

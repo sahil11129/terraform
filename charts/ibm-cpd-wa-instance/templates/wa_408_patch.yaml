@@ -1,0 +1,33 @@
+apiVersion: assistant.watson.ibm.com/v1
+kind: TemporaryPatch
+metadata:
+  name: wa-add-clu-mm-balanced-header
+  namespace: {{ .Values.cpd_namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+spec:
+  apiVersion: assistant.watson.ibm.com/v1
+  kind: WatsonAssistantClu
+  name: wa
+  patchType: patchStrategicMerge
+  patch:
+    nlu:
+      deployment:
+        spec:
+          template:
+            spec:
+              containers:
+              - name: nlu
+                env:
+                - name: USE_MM_BALANCED_HEADER
+                  value: "false"
+    clu-serving:
+      deployment:
+        spec:
+          template:
+            spec:
+              containers:
+              - name: clu-serving
+                env:
+                - name: USE_MM_BALANCED_HEADER
+                  value: "false"

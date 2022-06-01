@@ -1,0 +1,99 @@
+apiVersion: assistant.watson.ibm.com/v1
+kind: WatsonAssistant
+metadata:
+  name: wa     
+  namespace: {{ .Values.cpd_namespace }}   
+  annotations:
+    oppy.ibm.com/disable-rollback: "true"
+    oppy.ibm.com/log-default-level: "debug"
+    oppy.ibm.com/log-filters: ""
+    oppy.ibm.com/log-thread-id: "false"
+    oppy.ibm.com/log-json: "false"
+    argocd.argoproj.io/sync-wave: {{ .Values.syncwave | default "-3" | quote }}
+  labels:
+    app.kubernetes.io/managed-by: "Ansible"
+    app.kubernetes.io/name: "watson-assistant"
+    app.kubernetes.io/instance: "wa"     # This should match the value for metadata.name
+spec:
+  backup:
+    offlineQuiesce: false
+    onlineQuiesce: false
+  cluster:
+    dockerRegistryPrefix: ""
+    imagePullSecrets: []
+    storageClassName: {{ .Values.storage_class }}      # If you use a different storage class, replace it with the appropriate storage class
+    type: private
+    name: prod     # Do not change this value 
+  cpd:
+    namespace: {{ .Values.cpd_namespace }}       # Replace with the project where Cloud Pak for Data is installed. This value will most likely match metadata.namespace
+  datastores:
+    cos:
+      storageClassName: ""
+      storageSize: 20Gi
+    datagovernor:
+      elasticSearch:
+        storageSize: ""
+      etcd:
+        storageSize: ""
+      kafka:
+        storageSize: ""
+      storageClassName: ""
+      zookeeper:
+        storageSize: ""
+    elasticSearch:
+      analytics:
+        storageClassName: ""
+        storageSize: ""
+      store:
+        storageClassName: ""
+        storageSize: ""
+    etcd:
+      storageClassName: ""
+      storageSize: 2Gi
+    kafka:
+      storageClassName: ""
+      storageSize: 5Gi
+      zookeeper:
+        storageSize: 1Gi
+    modelTrain:
+      postgres:
+        storageClassName: {{ .Values.storage_class }} 
+        storageSize: "10Gi"
+      rabbitmq:
+        storageClassName: {{ .Values.storage_class }} 
+        storageSize: ""
+    postgres:
+      backupStorageClassName: ""
+      storageClassName: ""
+      storageSize: 10Gi
+    redis:
+      storageClassName: ""
+      storageSize: ""
+  features:
+    analytics:
+      enabled: true
+    recommends:
+      enabled: true
+    tooling:
+      enabled: true
+    voice:
+      enabled: false
+  labels: {}
+  languages:
+  - en
+  #- es
+  #- pt-br
+  #- fr
+  #- it
+  #- ja
+  #- de
+  #- ko
+  #- ar
+  #- nl
+  #- zh-tw
+  #- zh-cn
+  #- cs
+  license:
+    accept: true
+  size: small     # Options are small, medium, and large
+  version: {{ .Values.version }}

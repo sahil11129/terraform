@@ -1,12 +1,12 @@
-# module "gitops_ibm_catalogs" {
+# module "gitops_cp4d_operator" {
 #   depends_on = [
-#     module.gitops_cpd_operator_namespace
+#     module.gitops_ibm_catalogs
 #   ]
-#    source = "github.com/cloud-native-toolkit/terraform-gitops-cp-catalogs.git"
+#   source = "github.com/cloud-native-toolkit/terraform-gitops-cp4d-operator"
 
 #   gitops_config = module.gitops.gitops_config
 #   git_credentials = module.gitops.git_credentials
 #   server_name = module.gitops.server_name
 #   kubeseal_cert = module.gitops.sealed_secrets_cert
-#   entitlement_key = var.cp_entitlement_key
+#   namespace = module.gitops_cpd_operator_namespace.name
 # }
